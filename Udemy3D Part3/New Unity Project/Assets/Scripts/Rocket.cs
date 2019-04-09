@@ -40,6 +40,9 @@ public class Rocket : MonoBehaviour
             case "slayer":
                 break;
 
+            case "finish":
+                break;
+
             default:
                 //kill player & reload
                 break;

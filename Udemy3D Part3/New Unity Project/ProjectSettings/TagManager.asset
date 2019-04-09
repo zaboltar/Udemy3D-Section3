@@ -8,6 +8,7 @@ TagManager:
   - friendly
   - fuel
   - slayer
+  - finish
   layers:
   - Default
   - TransparentFX
