@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - head
+  - friendly
+  - fuel
+  - slayer
   layers:
   - Default
   - TransparentFX
