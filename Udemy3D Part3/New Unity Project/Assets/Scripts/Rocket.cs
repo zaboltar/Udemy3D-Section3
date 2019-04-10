@@ -8,6 +8,8 @@ public class Rocket : MonoBehaviour
     AudioSource audioSource;
     [SerializeField] float rcsThrust = 100f;
     [SerializeField] float mainThrust = 100f;
+    [SerializeField] float levelLoadDelay = 2f;
+
     [SerializeField] AudioClip mainEngine;
     [SerializeField] AudioClip success;
     [SerializeField] AudioClip death;
@@ -16,7 +18,7 @@ public class Rocket : MonoBehaviour
     [SerializeField] ParticleSystem successPartSys;
     [SerializeField] ParticleSystem deathPartSys;
 
-    [SerializeField] float levelLoadDelay = 2f;
+    
 
     enum State { Alive, Dying, Trascending}
     State state = State.Alive;
