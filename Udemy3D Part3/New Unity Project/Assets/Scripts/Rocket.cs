@@ -21,6 +21,8 @@ public class Rocket : MonoBehaviour
     enum State { Alive, Dying, Trascending}
     State state = State.Alive;
 
+    bool collisionsDisabled = false;
+
     
     void Start()
     {
@@ -36,11 +38,24 @@ public class Rocket : MonoBehaviour
             RespondToThrustInput();
             RespondToRotateInput();
         }
+        RespondToDebugKeys();
+    }
+
+    void RespondToDebugKeys()
+    {
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            LoadNextLevel();
+        }
+        else if (Input.GetKeyDown(KeyCode.C))
+        {
+            collisionsDisabled = !collisionsDisabled; // toggle
+        }
     }
 
     void OnCollisionEnter (Collision collision)
     {
-        if (state != State.Alive) {return;} //ignore collisions upon certain death 
+        if (state != State.Alive || !collisionsDisabled ) {return;} //ignore collisions upon certain death 
 
         switch (collision.gameObject.tag)
         {
