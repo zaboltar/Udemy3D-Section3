@@ -861,6 +861,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: LandPad
       objectReference: {fileID: 0}
+    - target: {fileID: 7210905889428196418, guid: f3c5a2861092b134eb7a4ba0df379c95,
+        type: 3}
+      propertyPath: m_TagString
+      value: Finish
+      objectReference: {fileID: 0}
     - target: {fileID: 4947934793285834180, guid: f3c5a2861092b134eb7a4ba0df379c95,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1003,6 +1008,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: LaunchPad
+      objectReference: {fileID: 0}
+    - target: {fileID: 7210905889428196418, guid: f3c5a2861092b134eb7a4ba0df379c95,
+        type: 3}
+      propertyPath: m_TagString
+      value: friendly
       objectReference: {fileID: 0}
     - target: {fileID: 4947934793285834180, guid: f3c5a2861092b134eb7a4ba0df379c95,
         type: 3}

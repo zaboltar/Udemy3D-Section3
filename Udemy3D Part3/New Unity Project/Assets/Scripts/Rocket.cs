@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 public class Rocket : MonoBehaviour
 {
@@ -9,6 +8,10 @@ public class Rocket : MonoBehaviour
     AudioSource thrust;
     [SerializeField] float rcsThrust = 100f;
     [SerializeField] float mainThrust = 100f;
+   // public int fuelGathered;
+
+    enum State { Alive, Dying, Trascending}
+    State state = State.Alive;
 
     // Start is called before the first frame update
     void Start()
@@ -20,14 +23,20 @@ public class Rocket : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Thrust();
-        Rotate();
-    
-       
+        if (state == State.Alive)
+        {
+            Thrust();
+            Rotate();
+        }
     }
 
     void OnCollisionEnter (Collision collision)
     {
+        if (state != State.Alive)
+        {
+            return;
+        } //ignore collisions upon certain death 
+
         switch (collision.gameObject.tag)
         {
             case "friendly":
@@ -35,32 +44,49 @@ public class Rocket : MonoBehaviour
                 break;
 
             case "fuel":
+                //Destroy(collision.gameObject);
+
                 break;
 
             case "slayer":
                 break;
 
             case "finish":
+                Debug.Log("TouchDown!");
+                state = State.Trascending;
+                Invoke("LoadNextLevel", 1f); //parametrize time
+                
                 break;
 
             default:
                 //kill player & reload
+                state = State.Dying;
+                Invoke("LoadFirstLevel", 1f);
+                SceneManager.LoadScene(0);
                 break;
               
             
         }
-
-        if (collision.collider.tag == "friendly")
-        {
-
-        }
     }
+
+    private void LoadNextLevel()
+    {
+        SceneManager.LoadScene(1); // ToDo:Allow more than 2 lvls -.-
+    }
+
+    private void LoadFirstLevel()
+    {
+        SceneManager.LoadScene(0);
+    }
+
+
 
     void Thrust()
     {
         if (Input.GetKey(KeyCode.Space)) //can thrust while rotating
         {
             rb.AddRelativeForce(Vector3.up * mainThrust);
+
             if (!thrust.isPlaying) // so it doesnt repeat >.<
             {
                 thrust.Play();
@@ -89,4 +115,13 @@ public class Rocket : MonoBehaviour
         }
         rb.freezeRotation = false;    // resume physics control of rotation
     }
+
+    /*void OnTriggerEnter(Collider col)
+    {
+        if (col.gameObject.tag == "fuel")
+        {
+            fuelGathered += 1;
+            Destroy(col.gameObject);
+        }
+    }*/
 }
