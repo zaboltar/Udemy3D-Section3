@@ -5,37 +5,40 @@ using UnityEngine.SceneManagement;
 public class Rocket : MonoBehaviour
 {
     Rigidbody rb;
-    AudioSource thrust;
+    AudioSource audioSource;
     [SerializeField] float rcsThrust = 100f;
     [SerializeField] float mainThrust = 100f;
-   // public int fuelGathered;
+    [SerializeField] AudioClip mainEngine;
+    [SerializeField] AudioClip success;
+    [SerializeField] AudioClip death;
+
+    [SerializeField] ParticleSystem mainEnginePartSys;
+    [SerializeField] ParticleSystem successPartSys;
+    [SerializeField] ParticleSystem deathPartSys;
 
     enum State { Alive, Dying, Trascending}
     State state = State.Alive;
 
-    // Start is called before the first frame update
+    
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        thrust = GetComponent<AudioSource>();
+        audioSource = GetComponent<AudioSource>();
     }
 
-    // Update is called once per frame
+    
     void Update()
     {
         if (state == State.Alive)
         {
-            Thrust();
-            Rotate();
+            RespondToThrustInput();
+            RespondToRotateInput();
         }
     }
 
     void OnCollisionEnter (Collision collision)
     {
-        if (state != State.Alive)
-        {
-            return;
-        } //ignore collisions upon certain death 
+        if (state != State.Alive) {return;} //ignore collisions upon certain death 
 
         switch (collision.gameObject.tag)
         {
@@ -45,28 +48,37 @@ public class Rocket : MonoBehaviour
 
             case "fuel":
                 //Destroy(collision.gameObject);
-
                 break;
 
             case "slayer":
                 break;
 
             case "finish":
-                Debug.Log("TouchDown!");
-                state = State.Trascending;
-                Invoke("LoadNextLevel", 1f); //parametrize time
-                
+                StartSuccessSequence();
                 break;
 
             default:
-                //kill player & reload
-                state = State.Dying;
-                Invoke("LoadFirstLevel", 1f);
-                SceneManager.LoadScene(0);
+                StartDeathSequence();
                 break;
-              
-            
         }
+    }
+
+    void StartSuccessSequence()
+    {
+        state = State.Trascending;
+        audioSource.Stop();
+        audioSource.PlayOneShot(success);
+        successPartSys.Play();
+        Invoke("LoadNextLevel", 2f); //parametrize time
+    }
+
+    void StartDeathSequence()
+    {
+        state = State.Dying;
+        audioSource.Stop();
+        audioSource.PlayOneShot(death);
+        deathPartSys.Play();
+        Invoke("LoadFirstLevel", 2f);
     }
 
     private void LoadNextLevel()
@@ -81,25 +93,20 @@ public class Rocket : MonoBehaviour
 
 
 
-    void Thrust()
+    void RespondToThrustInput()
     {
         if (Input.GetKey(KeyCode.Space)) //can thrust while rotating
         {
-            rb.AddRelativeForce(Vector3.up * mainThrust);
-
-            if (!thrust.isPlaying) // so it doesnt repeat >.<
-            {
-                thrust.Play();
-            }
-
+            ApplyThrust();
         }
         else
         {
-            thrust.Stop();
+            audioSource.Stop();
+            mainEnginePartSys.Stop();
         }
     }
 
-    private void Rotate()
+    private void RespondToRotateInput()
     {
         rb.freezeRotation = true; // take manual control of rotation
     
@@ -116,6 +123,17 @@ public class Rocket : MonoBehaviour
         rb.freezeRotation = false;    // resume physics control of rotation
     }
 
+    void ApplyThrust()
+    {
+        rb.AddRelativeForce(Vector3.up * mainThrust);
+
+        if (!audioSource.isPlaying) // so it doesnt repeat >.<
+        {
+            //thrust.Play();
+            audioSource.PlayOneShot(mainEngine);
+        }
+        mainEnginePartSys.Play();
+    }
     /*void OnTriggerEnter(Collider col)
     {
         if (col.gameObject.tag == "fuel")
