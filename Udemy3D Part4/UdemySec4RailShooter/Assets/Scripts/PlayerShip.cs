@@ -5,17 +5,25 @@ using UnityStandardAssets.CrossPlatformInput;
 
 public class PlayerShip : MonoBehaviour
 {
+    [Header("Speed")]
     [Tooltip("In mts per sec")] [SerializeField] float speed = 10f;
+
+    [Header("ScreenPosParam")]
     [Tooltip("In mts per sec")] [SerializeField] float xRange = 5f;
     [Tooltip("In mts per sec")] [SerializeField] float yRange = 3f;
 
-    float xThrow, yThrow;
+    
 
+    [Header("Controls")]
     [SerializeField] float positionPitchFactor = -5f;
     [SerializeField] float controlPitchFactor = -20f;
     [SerializeField] float positionYawFactor = 5f;
     [SerializeField] float controlRawFactor = -20f;
+    float xThrow, yThrow;
     
+    bool isCtrlEnabled = true;
+    
+
 
     // Start is called before the first frame update
     void Start()
@@ -23,11 +31,21 @@ public class PlayerShip : MonoBehaviour
         
     }
 
+   void OnPlayerDeath () // called by string rfrence
+    { 
+        //freeze ctrls
+        isCtrlEnabled = false;
+    }
+
     // Update is called once per frame
     void Update()
     {
-        ProcessTranslation();
-        ProcessRotation();
+        if (isCtrlEnabled) 
+            {
+                ProcessTranslation();
+                ProcessRotation();
+            }
+      
        
     }
 
