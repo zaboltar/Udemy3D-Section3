@@ -9,6 +9,7 @@ public class Enemy : MonoBehaviour
     ScoreBoard scoreBoard;
 
     [SerializeField] int scorePerHit = 12;
+    [SerializeField] int hits = 5;
     
     void Start()
     {
@@ -21,17 +22,33 @@ public class Enemy : MonoBehaviour
 
     void OnParticleCollision(GameObject other)
     {
-        scoreBoard.ScoreHit(scorePerHit);
-        GameObject fx = Instantiate(prefabDeathFX, transform.position, Quaternion.identity);
-        fx.transform.parent = parent;
-        Destroy(gameObject); 
+        ProcessHit();
+        
+        if (hits <= 1 ) 
+        {
+            KillEnemy();
+        }
+        
+        
         
     }
 
+    void ProcessHit()
+    {
+        scoreBoard.ScoreHit(scorePerHit);
+        hits = hits - 1;
+    }
     void AddBoxCollider()
     {
         Collider boxCol = gameObject.AddComponent<BoxCollider>();
         boxCol.isTrigger = false;
+    }
+
+    void KillEnemy()
+    {
+        GameObject fx = Instantiate(prefabDeathFX, transform.position, Quaternion.identity);
+        fx.transform.parent = parent;
+        Destroy(gameObject); 
     }
 
 }

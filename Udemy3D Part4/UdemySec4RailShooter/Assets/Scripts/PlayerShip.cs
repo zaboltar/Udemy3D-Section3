@@ -5,6 +5,9 @@ using UnityStandardAssets.CrossPlatformInput;
 
 public class PlayerShip : MonoBehaviour
 {
+    [Header("General")]
+     [SerializeField] GameObject[] guns;
+
     [Header("Speed")]
     [Tooltip("In mts per sec")] [SerializeField] float speed = 10f;
 
@@ -44,6 +47,7 @@ public class PlayerShip : MonoBehaviour
             {
                 ProcessTranslation();
                 ProcessRotation();
+                ProcessFiring();
             }
       
        
@@ -82,4 +86,32 @@ public class PlayerShip : MonoBehaviour
 
         transform.localRotation = Quaternion.Euler(pitch, yaw, roll);
     }
+
+    void ProcessFiring()
+    {
+        if (CrossPlatformInputManager.GetButton("Fire")) 
+        {
+            ActivateGuns();
+        } else 
+        {
+            DeActivateGuns();
+        }
+    }
+
+    void ActivateGuns()
+    {
+        foreach (GameObject gun in guns)
+        {
+           gun.SetActive(true); 
+        }
+    }
+
+    void DeActivateGuns()
+    {
+        foreach (GameObject gun in guns)
+        {
+            gun.SetActive(false);
+        }
+    }
+
 }

@@ -659,6 +659,12 @@ MonoBehaviour:
     type: 3}
   parent: {fileID: 1314953149}
   scorePerHit: 12
+--- !u!1 &2075007709 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4110944260183902728, guid: 8537e593c931490468967f8589cedc85,
+    type: 3}
+  m_PrefabInstance: {fileID: 4110944261331964117}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2133323262 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1821103618524806387, guid: 39c9d5e2ba40c3347b7939d35e1f4788,
@@ -681,6 +687,12 @@ MonoBehaviour:
     type: 3}
   parent: {fileID: 1314953149}
   scorePerHit: 12
+--- !u!1 &2144869801 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4110944260118236540, guid: 8537e593c931490468967f8589cedc85,
+    type: 3}
+  m_PrefabInstance: {fileID: 4110944261331964117}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1820544979523986956
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -911,6 +923,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4110944261046165077, guid: 8537e593c931490468967f8589cedc85,
+        type: 3}
+      propertyPath: guns.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4110944261046165077, guid: 8537e593c931490468967f8589cedc85,
+        type: 3}
+      propertyPath: guns.Array.data[0]
+      value: 
+      objectReference: {fileID: 2075007709}
+    - target: {fileID: 4110944261046165077, guid: 8537e593c931490468967f8589cedc85,
+        type: 3}
+      propertyPath: guns.Array.data[1]
+      value: 
+      objectReference: {fileID: 2144869801}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8537e593c931490468967f8589cedc85, type: 3}
 --- !u!1001 &5307096583449857817
