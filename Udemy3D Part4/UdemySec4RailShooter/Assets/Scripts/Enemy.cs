@@ -6,19 +6,32 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] GameObject prefabDeathFX;
     [SerializeField] Transform parent;
+    ScoreBoard scoreBoard;
+
+    [SerializeField] int scorePerHit = 12;
     
     void Start()
     {
-        Collider boxCol = gameObject.AddComponent<BoxCollider>();
-        boxCol.isTrigger = false;
+        AddBoxCollider();
+        scoreBoard = FindObjectOfType<ScoreBoard>();
+
+        
     }
 
 
     void OnParticleCollision(GameObject other)
     {
+        scoreBoard.ScoreHit(scorePerHit);
         GameObject fx = Instantiate(prefabDeathFX, transform.position, Quaternion.identity);
         fx.transform.parent = parent;
-        Destroy(gameObject);
+        Destroy(gameObject); 
+        
+    }
+
+    void AddBoxCollider()
+    {
+        Collider boxCol = gameObject.AddComponent<BoxCollider>();
+        boxCol.isTrigger = false;
     }
 
 }
